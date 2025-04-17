@@ -1,30 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
+// , { useState, useEffect, useCallback }
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import axios from "axios";
+// import axios from "axios";
+import useCategories from "./reuse/useCategories";
 
 const Categorys = () => {
-  const [categorys, setCategorys] = useState([]);
 
-  const fetchCategorys = useCallback(async () => {
-    try {
-      const res = await axios.get("http://localhost:3035/api/v1/user/categorys", {
-        headers: { api_key: "123456789" },
-      });
-      setCategorys(Array.isArray(res.data.data) ? res.data.data : []);
-    } catch (error) {
-      console.error("Error fetching categorys:", error);
-      setCategorys([]);
-    }
-  }, []);
+  const categorys = useCategories();
 
-  useEffect(() => {
-    fetchCategorys();
-  }, [fetchCategorys]);
-
-  const shouldLoop = categorys.length > 5; // Enable loop only if we have more than 5 items
+  const shouldLoop = categorys.length > 5;
 
   return (
     <section className="py-5 overflow-hidden" id="category-list">

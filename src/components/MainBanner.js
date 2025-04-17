@@ -14,7 +14,6 @@ const MainBanner = () => {
             });
             const fetchedData = Array.isArray(res.data.data) ? res.data.data : [];
             setBanner(fetchedData);
-            console.log(fetchedData); // <- logs the actual data
         } catch (error) {
             console.error("Error fetching categorys:", error);
             setBanner([]);

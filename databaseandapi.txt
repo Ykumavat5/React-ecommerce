@@ -56,3 +56,13 @@ remove from favourites
 
 "search products"
 
+
+/assets/images/product-thumb-11.png
+
+
+Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...
+
+1 api to fetch fav of logged in user  store in fav component 
+import and check if the product id is in fav if yes change the button css
+
+

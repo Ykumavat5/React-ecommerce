@@ -2,35 +2,52 @@ import React from 'react';
 
 const ProductCard = ({ product }) => {
     return (
-        <div className="product-item">
+        <div className="product-item  h-100">
+            {/*  h-100 d-flex flex-column border p-2 */}
             <figure>
                 <a href="index.html" title={product.title}>
-                    <img src={product.image} alt="Product Thumbnail" className="tab-image" />
+                    <img src={product?.media} alt="Product Thumbnail" className="tab-image"
+                        style={{ height: "200px", objectFit: "cover" }}
+                    />
                 </a>
             </figure>
             <div className="d-flex flex-column text-center">
                 <h3 className="fs-6 fw-normal">{product.title}</h3>
                 <div>
                     <span className="rating">
-                        {Array.from({ length: Math.floor(product.rating) }).map((_, i) => (
-                            <svg key={i} width="18" height="18" className="text-warning">
-                                <use href="#star-full"></use>
+                        {Array.from({ length: Math.floor(product.avg_ratings || 0) }).map((_, i) => (
+                            <svg key={`full-${i}`} width="18" height="18" className="text-warning">
+                                <use href="#star-full" />
                             </svg>
                         ))}
-                        {product.rating % 1 !== 0 && (
-                            <svg width="18" height="18" className="text-warning">
-                                <use href="#star-half"></use>
+                        {product.avg_ratings % 1 >= 0.5 && (
+                            <svg key="half" width="18" height="18" className="text-warning">
+                                <use href="#star-half" />
                             </svg>
                         )}
+                        {Array.from({ length: 5 - Math.ceil(product.avg_ratings || 0) }).map((_, i) => (
+                            <svg key={`empty-${i}`} width="18" height="18" className="text-muted">
+                                <use href="#star-empty" />
+                            </svg>
+                        ))}
                     </span>
-                    <span>({product.reviews})</span>
+                    <span>
+                        {product.avg_ratings !== "00.00" && product.avg_ratings !== "0.00"
+                            ? `(${product.avg_ratings})`
+                            : "(0)"}
+                    </span>
+
                 </div>
 
                 <div className="d-flex justify-content-center align-items-center gap-2">
-                    <del>${product.oldPrice.toFixed(2)}</del>
-                    <span className="text-dark fw-semibold">${product.newPrice.toFixed(2)}</span>
+                    {product?.discounted_price ? (
+                        <del>$ {product?.price}</del>
+                    ) : (
+                        <span className="text-dark fw-semibold">${product?.price}</span>
+                    )}
+                    <span className="text-dark fw-semibold">{product?.discounted_price ? "$" + product?.discounted_price : ""}</span>
                     <span className="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">
-                        {product.discountText}
+                        {product?.discount_percentage ? product?.discount_percentage + "% off" : ""}
                     </span>
                 </div>
 
