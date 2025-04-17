@@ -1,0 +1,58 @@
+tbl_user 
+
+tbl_category
+
+tbl_banner
+
+tbl_products
+
+tbl_product_images
+
+tbl_ratings
+
+tbl_blogs
+
+tbl_favourites
+
+tbl_cart
+
+tbl_order
+
+tbl_order_details
+
+tbl_offers
+
+tbl_discounts
+
+tbl_newsletter
+
+Login 
+signup
+newsletter subscribe
+newsletter check
+cart details of logged in user
+category listing
+product listing
+view product by category
+view cart
+add to cart
+increment quantity
+decrement quantity
+remove from cart
+place order
+view orders
+view profile
+edit profile
+get popular products
+get latest products
+get  latest blogs
+post blog
+delete blog
+get Main banner details
+get Advertisement banner
+add to favourites
+view favourites
+remove from favourites
+
+"search products"
+
