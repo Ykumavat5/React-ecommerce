@@ -1,18 +1,61 @@
 import React from 'react';
+import useFavourites from "./useFavourites";
+import axios from 'axios';
 
 const ProductCard = ({ product }) => {
+    const [favourites, setFavourites] = useFavourites();
+// console.log("productcard called");
+
+    const handleToggleFavourite = async (productId) => {
+        const token = localStorage.getItem("token_organic");
+
+        // Optimistically update UI
+        setFavourites(prev =>
+            prev.includes(productId)
+                ? prev.filter(id => id !== productId) // remove
+                : [...prev, productId]               // add
+        );
+
+        try {
+            const res = await axios.post(
+                "http://localhost:3035/api/v1/user/toggleFavourite",
+                { product_id: productId },
+                {
+                    headers: {
+                        api_key: "123456789",
+                        token,
+                    },
+                }
+            );
+
+            if (res.status === 200) {
+                console.log(res.data.message || "Toggled favourite!");
+                // You can optionally sync state with res here again if needed
+            }
+        } catch (error) {
+            console.error("Error toggling favourite:", error);
+
+            // Rollback UI change in case of error
+            setFavourites(prev =>
+                prev.includes(productId)
+                    ? [...prev, productId]   // re-add if remove failed
+                    : prev.filter(id => id !== productId) // re-remove if add failed
+            );
+        }
+    };
+
     return (
         <div className="product-item  h-100">
             {/*  h-100 d-flex flex-column border p-2 */}
             <figure>
-                <a href="index.html" title={product.title}>
+                <a href={`/product/${product.id}`} title={product.title}>
                     <img src={product?.media} alt="Product Thumbnail" className="tab-image"
                         style={{ height: "200px", objectFit: "cover" }}
                     />
                 </a>
             </figure>
             <div className="d-flex flex-column text-center">
-                <h3 className="fs-6 fw-normal">{product.title}</h3>
+                <h3 className="fs-6 fw-normal product-title">{product.title}</h3>
                 <div>
                     <span className="rating">
                         {Array.from({ length: Math.floor(product.avg_ratings || 0) }).map((_, i) => (
@@ -62,9 +105,16 @@ const ProductCard = ({ product }) => {
                             </a>
                         </div>
                         <div className="col-2">
-                            <a href="#user" className="btn btn-outline-dark rounded-1 p-2 fs-6">
-                                <svg width="18" height="18"><use href="#heart"></use></svg>
-                            </a>
+                            <button
+                                onClick={() => handleToggleFavourite(product.id)}
+                                className={`btn btn-outline-dark rounded-1 p-2 fs-6 ${favourites.includes(product.id) ? 'heart-black' : 'heart-white'}`}
+                            // style={favourites.includes(product.id) ? blackBgWhiteHeart : whiteBgBlackHeart}
+                            >
+                                <svg width="18" height="18">
+                                    <use href="#heart" />
+                                </svg>
+                            </button>
+
                         </div>
                     </div>
                 </div>

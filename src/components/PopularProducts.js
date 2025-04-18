@@ -7,7 +7,7 @@ import ProductCard from './reuse/ProductCard';  // <-- import the reusable compo
 import axios from "axios";
 
 const PopularProduct = () => {
-
+    
     const [PopularProducts, setPopularProducts] = useState([]);
 
     const fetchPopularProducts = useCallback(async () => {

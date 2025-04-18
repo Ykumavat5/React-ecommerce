@@ -9,7 +9,7 @@ const Header = () => {
 
     return (
         <>
-            <header>
+            <header className='sticky-top' style={{backgroundColor:"whitesmoke"}}>
                 <div className="container-fluid">
                     <div className="row py-3 border-bottom">
 
@@ -55,17 +55,17 @@ const Header = () => {
                         <div className="col-lg-4">
                             <ul className="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
                                 <li className="nav-item active">
-                                    <Link to="index.html" className="nav-link">Home</Link>
+                                    <Link to="/dashboard" className="nav-link">Home</Link>
                                 </li>
                                 <li className="nav-item dropdown">
                                     <Link className="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">other</Link>
                                     <ul className="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
-                                        <li><Link to="index.html" className="dropdown-item">About Us </Link></li>
-                                        <li><Link to="index.html" className="dropdown-item">Cart </Link></li>
-                                        <li><Link to="index.html" className="dropdown-item">Checkout </Link></li>
-                                        <li><Link to="index.html" className="dropdown-item">Blog </Link></li>
-                                        <li><Link to="index.html" className="dropdown-item">Single Post </Link></li>
-                                        <li><Link to="index.html" className="dropdown-item">My Account </Link></li>
+                                        <li><Link to="#index" className="dropdown-item">About Us </Link></li>
+                                        <li><Link to="#myOrders" className="dropdown-item">My Orders </Link></li>
+                                        <li><Link to="#index" className="dropdown-item">My Account </Link></li>
+                                        {/* <li><Link to="#index" className="dropdown-item">Checkout </Link></li> */}
+                                        {/* <li><Link to="#latest-blog" className="dropdown-item">Blog </Link></li> */}
+                                        {/* <li><Link to="index.html" className="dropdown-item">Single Post </Link></li> */}
                                     </ul>
                                 </li>
                                 {!user && (
@@ -89,8 +89,9 @@ const Header = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/dashboard" className="p-2 mx-1">
-                                        <svg width="24" height="24"><use href="#wishlist"></use></svg>
+                                    <a href="/favourites" className="p-2 mx-1">
+                                        <svg width="24" height="24"><use href="#heart"></use></svg>
+                                        {/* #wishlist */}
                                     </a>
                                 </li>
                                 <li>

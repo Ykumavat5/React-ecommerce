@@ -9,7 +9,7 @@ import MainBanner from '../components/MainBanner';
 import Cart from '../components/Cart';
 import Categorys from '../components/Categorys';
 import Sidebar from '../components/SideBar';
-import Product from '../components/Product';
+import Product from '../components/Products';
 import AdvertisementBanner from '../components/AdvertisementBanner';
 import FeaturedProduct from '../components/FeaturedProduct';
 // import Signup from '../components/Signup';

@@ -1,41 +1,86 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import useFavourites from "./reuse/useFavourites";
+import './reuse/ButtonStyles.css';
 
 const Product = () => {
-    const favourites = useFavourites();
+    const [favourites, setFavourites] = useFavourites();
+    const [products, setProducts] = useState([]);
 
-    const handleToggleFavourite = async (productId) => {
-        console.log("productId",productId);
+    const [quantity, setQuantity] = useState(1);
+
+    // Handle the change in quantity input
+    const handleQuantityChange = (e) => {
+        const value = Math.max(1, e.target.value); // Ensure quantity is always >= 1
+        setQuantity(value);
+    };
+
+    // Handle adding product to cart
+    const handleAddToCart = async (product_id, quantity) => {
         const token = localStorage.getItem("token_organic");
 
         try {
-          const res = await axios.post(
-            "http://localhost:3035/api/v1/user/toggleFavourite",
-            {
-            //   user_id: 1,
-              product_id: productId,
-            },
-            {
-              headers: {
-                api_key: "123456789",
-                token: `${token}`,
+            // Make a POST request to add the product to the cart
+            const res = await axios.post(
+                "http://localhost:3035/api/v1/user/cart/add",
+                {
+                    product_id,
+                    quantity, // Send the product ID and quantity
+                },
+                {
+                    headers: {
+                        api_key: "123456789",
+                        token,
+                    },
+                }
+            );
 
-              },
-            }
-          );
-      
-          if (res.status === 200) {  
-            console.log(res.data.message || "Toggled favourite!");
-            // Optionally update UI here (e.g., mark the product as favourite)
-          }
+            // Optionally, you can handle the response here (e.g., show a success message)
+            console.log('Product added to cart:', res.data);
         } catch (error) {
-          console.error("Error toggling favourite:", error);
+            console.error("Error adding item to cart:", error);
         }
-      };
-      
+    };
 
-    const [products, setProducts] = useState([]);
+
+
+    const handleToggleFavourite = async (productId) => {
+        const token = localStorage.getItem("token_organic");
+
+        // Optimistically update UI
+        setFavourites(prev =>
+            prev.includes(productId)
+                ? prev.filter(id => id !== productId) // remove
+                : [...prev, productId]               // add
+        );
+
+        try {
+            const res = await axios.post(
+                "http://localhost:3035/api/v1/user/toggleFavourite",
+                { product_id: productId },
+                {
+                    headers: {
+                        api_key: "123456789",
+                        token,
+                    },
+                }
+            );
+
+            if (res.status === 200) {
+                console.log(res.data.message || "Toggled favourite!");
+                // You can optionally sync state with res here again if needed
+            }
+        } catch (error) {
+            console.error("Error toggling favourite:", error);
+
+            // Rollback UI change in case of error
+            setFavourites(prev =>
+                prev.includes(productId)
+                    ? [...prev, productId]   // re-add if remove failed
+                    : prev.filter(id => id !== productId) // re-remove if add failed
+            );
+        }
+    };
 
     const fetchProducts = useCallback(async () => {
         try {
@@ -54,26 +99,6 @@ const Product = () => {
         fetchProducts();
     }, [fetchProducts]);
 
-    const blackBgWhiteHeart = {
-        backgroundColor: "#000",
-        color: "#fff",
-        border: "1px solid #000",
-        padding: "8px",
-        borderRadius: "4px",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-      };
-      
-      const whiteBgBlackHeart = {
-        backgroundColor: "#fff",
-        color: "#000",
-        border: "1px solid #000",
-        padding: "8px",
-        borderRadius: "4px",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-      };
-      
     return (
 
         // component Products
@@ -105,7 +130,7 @@ const Product = () => {
                                     <div className="col" key={index}>
                                         <div className="product-item h-100 d-flex flex-column border p-2">
                                             <figure>
-                                                <a href="index.html" title="Product Title">
+                                                <a href={`/product/${product.id}`} title={product.title}>
                                                     <img
                                                         src={product.media}
                                                         alt="Product Thumbnail"
@@ -142,56 +167,82 @@ const Product = () => {
 
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center gap-2">
-                                                    <del>${product.price}</del>
-                                                    <span className="text-dark fw-semibold">${product.discounted_price ?? ''}</span>
+                                                    {product?.discounted_price ? (
+                                                        <del>$ {product?.price}</del>
+                                                    ) : (
+                                                        <span className="text-dark fw-semibold">${product?.price}</span>
+                                                    )}
+                                                    <span className="text-dark fw-semibold">{product?.discounted_price ? "$" + product?.discounted_price : ""}</span>
                                                     <span className="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">
-                                                        {product.discount_percentage}% OFF
+                                                        {product?.discount_percentage ? product?.discount_percentage + "% off" : ""}
                                                     </span>
                                                 </div>
                                                 <div className="button-area p-3 pt-0 mt-auto">
                                                     <div className="row g-1 mt-2">
+
                                                         <div className="col-3">
+                                                            <input
+                                                                type="number"
+                                                                name="quantity"
+                                                                className="form-control border-dark-subtle input-number quantity"
+                                                                value={quantity} // Controlled input
+                                                                onChange={handleQuantityChange} // Update quantity on change
+                                                                min="1" // Ensure the quantity is at least 1
+                                                            />
+                                                        </div>
+
+                                                        {/* Add to Cart Button */}
+                                                        <div className="col-7">
+                                                            <button
+                                                                onClick={() => handleAddToCart(product.id, quantity)} // Call function with product id and quantity
+                                                                className="btn btn-primary rounded-1 p-2 fs-7 btn-cart"
+                                                            >
+                                                                <svg width="18" height="18"><use href="#cart" /></svg> Add to Cart
+                                                            </button>
+                                                        </div>
+
+                                                    {/* <div className="col-3">
                                                             <input type="number" name="quantity" className="form-control border-dark-subtle input-number quantity" defaultValue="1" />
                                                         </div>
                                                         <div className="col-7">
                                                             <a href="/dashboard" className="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
                                                                 <svg width="18" height="18"><use href="#cart" /></svg> Add to Cart
                                                             </a>
-                                                        </div>
-                                                        {/* <div className="col-2">
+                                                        </div> */}
+                                                    {/* <div className="col-2">
                                                             <a href="/dashboard" className="btn btn-outline-dark rounded-1 p-2 fs-6">
                                                                 <svg width="18" height="18"><use href="#heart" /></svg>
                                                             </a>
                                                         </div> */}
-                                                        <div className="col-2">
-                                                            <button
-                                                                onClick={() => handleToggleFavourite(product.id)}
-                                                                className="btn btn-outline-dark rounded-1 p-2 fs-6"
-                                                                style={favourites.includes(product.id) ? blackBgWhiteHeart : whiteBgBlackHeart}
-                                                                >
-                                                                <svg width="18" height="18">
-                                                                    <use href="#heart" />
-                                                                </svg>
-                                                            </button>
+                                                    <div className="col-2">
+                                                        <button
+                                                            onClick={() => handleToggleFavourite(product.id)}
+                                                            className={`btn btn-outline-dark rounded-1 p-2 fs-6 ${favourites.includes(product.id) ? 'heart-black' : 'heart-white'}`}
+                                                        // style={favourites.includes(product.id) ? blackBgWhiteHeart : whiteBgBlackHeart}
+                                                        >
+                                                            <svg width="18" height="18">
+                                                                <use href="#heart" />
+                                                            </svg>
+                                                        </button>
 
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                ))
-                            ) : (
-                                <div className="text-center py-5 fw-semibold fs-5 w-100">No products available.</div>
+                                    </div>
+                        ))
+                        ) : (
+                        <div className="text-center py-5 fw-semibold fs-5 w-100">No products available.</div>
                             )}
 
-                        </div>
-
-
                     </div>
+
+
                 </div>
             </div>
-        </section>
+        </div>
+        </section >
     );
 }
 

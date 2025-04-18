@@ -5,6 +5,8 @@ import Error from './pages/Error';
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
+import Favourites from './pages/Favourites';
+import Product from './pages/Product';
 // import { AuthProvider } from './AuthContext';
 // import { useState } from 'react';
 
@@ -35,13 +37,15 @@ function App() {
         <Route path="*" element={<Error />} />
       </Routes> */}
       {/* <AuthProvider> */}
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
-          <Route path="*" element={<Error />} />
-        </Routes>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path='/favourites' element={<Favourites />} />
+        <Route path='/product/:productId' element={<Product />} />
+        
+        <Route path="*" element={<Error />} />
+      </Routes>
       {/* </AuthProvider> */}
     </div>
   );

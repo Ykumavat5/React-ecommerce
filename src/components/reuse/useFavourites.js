@@ -5,7 +5,7 @@ const useFavourites = () => {
   const [favourites, setFavourites] = useState([]);
 
   const fetchFavourites = useCallback(async () => {
-    const token = localStorage.getItem("token_organic"); // move inside useCallback
+    const token = localStorage.getItem("token_organic");
 
     try {
       const res = await axios.get("http://localhost:3035/api/v1/user/favourites", {
@@ -14,18 +14,23 @@ const useFavourites = () => {
           token: `${token}`,
         },
       });
-      setFavourites(Array.isArray(res.data.data) ? res.data.data : []);
+      const productIds = Array.isArray(res.data.data?.result)
+        ? res.data.data.result.map(item => item.product_id)
+        : [];
+      // console.log("use fav called");
+
+      setFavourites(productIds);
     } catch (error) {
       console.error("Error fetching favourites:", error);
       setFavourites([]);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     fetchFavourites();
   }, [fetchFavourites]);
 
-  return favourites;
+  return [favourites, setFavourites];
 };
 
 export default useFavourites;

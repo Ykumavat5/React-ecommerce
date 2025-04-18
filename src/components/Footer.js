@@ -59,12 +59,12 @@ const Footer = () => {
                 <li className="menu-item">
                   <a href="/dashboard" className="nav-link">Careers</a>
                 </li>
-                <li className="menu-item">
+                {/* <li className="menu-item">
                   <a href="/dashboard" className="nav-link">Affiliate Programme</a>
                 </li>
                 <li className="menu-item">
                   <a href="/dashboard" className="nav-link">Ultras Press</a>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
