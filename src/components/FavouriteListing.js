@@ -7,45 +7,6 @@ const FavouriteListing = () => {
     const [favourites, setFavourites] = useFavourites();
     const [products, setProducts] = useState([]);
 
-    // const handleToggleFavourite = async (productId) => {
-
-    //     const token = localStorage.getItem("token_organic");
-
-    //     // Optimistically update UI
-    //     setFavourites(prev =>
-    //         prev.includes(productId)
-    //             ? prev.filter(id => id !== productId) // remove
-    //             : [...prev, productId]               // add
-    //     );
-
-    //     try {
-    //         const res = await axios.post(
-    //             "http://localhost:3035/api/v1/user/toggleFavourite",
-    //             { product_id: productId },
-    //             {
-    //                 headers: {
-    //                     api_key: "123456789",
-    //                     token,
-    //                 },
-    //             }
-    //         );
-
-    //         if (res.status === 200) {
-    //             console.log(res.data.message || "Toggled favourite!");
-    //             // Optionally sync state with res here again if needed
-    //         }
-    //     } catch (error) {
-    //         console.error("Error toggling favourite:", error);
-
-    //         // Rollback UI change in case of error
-    //         setFavourites(prev =>
-    //             prev.includes(productId)
-    //                 ? [...prev, productId]   // re-add if remove failed
-    //                 : prev.filter(id => id !== productId) // re-remove if add failed
-    //         );
-    //     }
-    // };
-
     const handleToggleFavourite = async (productId) => {
         const token = localStorage.getItem("token_organic");
     
@@ -71,8 +32,6 @@ const FavouriteListing = () => {
         } catch (error) {
             console.error("Error removing favourite:", error);
     
-            // Optionally re-fetch or restore the removed item if needed
-            // But since this is a minor UI feature, you might skip rollback
         }
     };
 
@@ -94,7 +53,7 @@ const FavouriteListing = () => {
             console.error("Error fetching products:", error);
             setProducts([]);
         }
-    }, []);  // Now no dependency array warning because token is fetched inside the function
+    }, []);
 
     useEffect(() => {
         fetchProducts();

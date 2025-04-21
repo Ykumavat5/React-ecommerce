@@ -5,10 +5,13 @@ import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import ProductCard from "./reuse/ProductCard";
 import axios from "axios";
+import useFavourites from "./reuse/useFavourites";
+import useCart from "./reuse/AddToCart"; // <-- import useCart hook
 
 const LatestProducts = () => {
-
-    const [LatestProducts, setLatestProducts] = useState([]);
+    const { addToCart } = useCart();  // <-- useCart hook to get addToCart function
+    const [latestProducts, setLatestProducts] = useState([]);
+    const [favourites, setFavourites] = useFavourites();
 
     const fetchLatestProducts = useCallback(async () => {
         try {
@@ -17,7 +20,7 @@ const LatestProducts = () => {
             });
             setLatestProducts(Array.isArray(res.data.data) ? res.data.data : []);
         } catch (error) {
-            console.error("Error fetching categorys:", error);
+            console.error("Error fetching products:", error);
             setLatestProducts([]);
         }
     }, []);
@@ -27,16 +30,12 @@ const LatestProducts = () => {
     }, [fetchLatestProducts]);
 
     return (
-        // component LatestProducts 
         <section id="latest-products" className="products-carousel">
-            <div className="container-lg overflow-hidden pb-5">
+            <div className="container-lg overflow-hidden py-5">
                 <div className="row">
                     <div className="col-md-12">
-
-                        <div className="section-header d-flex justify-content-between my-4">
-
+                        <div className="section-header d-flex flex-wrap justify-content-between my-4">
                             <h2 className="section-title">Just arrived</h2>
-
                             <div className="d-flex align-items-center">
                                 <a href="/dashboard" className="btn btn-primary me-2">View All</a>
                                 <div className="swiper-buttons">
@@ -45,12 +44,12 @@ const LatestProducts = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-md-12">
-                        {LatestProducts.length > 0 ? (
+                        {latestProducts.length > 0 ? (
                             <Swiper
                                 modules={[Navigation]}
                                 spaceBetween={20}
@@ -59,7 +58,7 @@ const LatestProducts = () => {
                                     nextEl: '.products-carousel-next',
                                     prevEl: '.products-carousel-prev',
                                 }}
-                                loop={true}
+                                loop={false}
                                 breakpoints={{
                                     0: { slidesPerView: 2 },
                                     576: { slidesPerView: 3 },
@@ -67,9 +66,14 @@ const LatestProducts = () => {
                                     992: { slidesPerView: 5 },
                                 }}
                             >
-                                {LatestProducts.map((product, index) => (
+                                {latestProducts.map((product, index) => (
                                     <SwiperSlide key={index}>
-                                        <ProductCard product={product} />
+                                        <ProductCard 
+                                            product={product} 
+                                            favourites={favourites} 
+                                            setFavourites={setFavourites} 
+                                            addToCart={addToCart}  // <-- Pass addToCart to ProductCard
+                                        />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
@@ -80,7 +84,7 @@ const LatestProducts = () => {
                 </div>
             </div>
         </section>
-
     );
-}
+};
+
 export default LatestProducts;

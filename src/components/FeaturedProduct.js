@@ -5,30 +5,29 @@ import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import ProductCard from "./reuse/ProductCard";
 import axios from "axios";
+import useFavourites from "./reuse/useFavourites";  // Import your favourites hook!
+import useCart from "./reuse/AddToCart";
 
 const FeaturedProduct = () => {
+    const { addToCart } = useCart();
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [favourites, setFavourites] = useFavourites();
 
-
-    const [FeaturedProducts, setFeatureProducts] = useState([]);
-
-    const fetchFeatureProducts = useCallback(async () => {
+    const fetchFeaturedProducts = useCallback(async () => {
         try {
             const res = await axios.get("http://localhost:3035/api/v1/user/featureProducts", {
                 headers: { api_key: "123456789" },
             });
-            setFeatureProducts(Array.isArray(res.data.data) ? res.data.data : []);
-
-
+            setFeaturedProducts(Array.isArray(res.data.data) ? res.data.data : []);
         } catch (error) {
             console.error("Error fetching featured products:", error);
-            setFeatureProducts([]);
+            setFeaturedProducts([]);
         }
     }, []);
 
     useEffect(() => {
-        fetchFeatureProducts();
-    }, [fetchFeatureProducts]);
-
+        fetchFeaturedProducts();
+    }, [fetchFeaturedProducts]);
 
     return (
         <section id="featured-products" className="products-carousel">
@@ -50,7 +49,7 @@ const FeaturedProduct = () => {
 
                 <div className="row">
                     <div className="col-md-12">
-                        {FeaturedProducts.length >= 1 ? (
+                        {featuredProducts.length > 0 ? (
                             <Swiper
                                 modules={[Navigation]}
                                 spaceBetween={20}
@@ -67,21 +66,25 @@ const FeaturedProduct = () => {
                                     992: { slidesPerView: 5 },
                                 }}
                             >
-
-                                {FeaturedProducts.map((product, index) => (
+                                {featuredProducts.map((product, index) => (
                                     <SwiperSlide key={index}>
-                                        <ProductCard product={product} />
+                                        <ProductCard 
+                                            product={product} 
+                                            favourites={favourites} 
+                                            setFavourites={setFavourites} 
+                                            addToCart={addToCart}  // Pass addToCart function to ProductCard
+                                        />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
                         ) : (
-                            <div className="text-center">No featured product available.</div>
+                            <div className="text-center">No featured products available.</div>
                         )}
                     </div>
                 </div>
             </div>
         </section>
     );
-}
+};
 
 export default FeaturedProduct;

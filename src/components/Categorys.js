@@ -1,11 +1,11 @@
 import React from "react";
 // , { useState, useEffect, useCallback }
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-// import axios from "axios";
 import useCategories from "./reuse/useCategories";
+// import axios from "axios";
 
 const Categorys = () => {
 
@@ -58,7 +58,7 @@ const Categorys = () => {
           >
             {categorys.map((cat, index) => (
               <SwiperSlide key={index}>
-                <a href="category.html" className="nav-link text-center">
+                <a href="#category" className="nav-link text-center">
                   <img src={cat.image} className="rounded-circle" alt="Category Thumbnail" />
                   <h4 className="fs-6 mt-3 fw-normal category-title">{cat.name}</h4>
                 </a>

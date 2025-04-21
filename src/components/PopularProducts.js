@@ -3,12 +3,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import ProductCard from './reuse/ProductCard';  // <-- import the reusable component!
+import ProductCard from './reuse/ProductCard';
 import axios from "axios";
+import useFavourites from './reuse/useFavourites';
+import useCart from "./reuse/AddToCart";
 
 const PopularProduct = () => {
-    
-    const [PopularProducts, setPopularProducts] = useState([]);
+    const { addToCart } = useCart();
+    const [popularProducts, setPopularProducts] = useState([]);
+    const [favourites, setFavourites] = useFavourites();
 
     const fetchPopularProducts = useCallback(async () => {
         try {
@@ -17,7 +20,7 @@ const PopularProduct = () => {
             });
             setPopularProducts(Array.isArray(res.data.data) ? res.data.data : []);
         } catch (error) {
-            console.error("Error fetching categorys:", error);
+            console.error("Error fetching products:", error);
             setPopularProducts([]);
         }
     }, []);
@@ -46,8 +49,7 @@ const PopularProduct = () => {
 
                 <div className="row">
                     <div className="col-md-12">
-                        {PopularProducts.length > 0 ? (
-
+                        {popularProducts.length > 0 ? (
                             <Swiper
                                 modules={[Navigation]}
                                 spaceBetween={20}
@@ -64,20 +66,25 @@ const PopularProduct = () => {
                                     992: { slidesPerView: 5 },
                                 }}
                             >
-                                {PopularProducts.map((product, index) => (
+                                {popularProducts.map((product, index) => (
                                     <SwiperSlide key={index}>
-                                        <ProductCard product={product} />
+                                        <ProductCard 
+                                            product={product} 
+                                            favourites={favourites} 
+                                            setFavourites={setFavourites}
+                                            addToCart={addToCart} // This is where you pass the addToCart function
+                                        />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
-                        ):(
-                        <div className="text-center py-5 fw-semibold fs-5 w-100">No products available.</div>
+                        ) : (
+                            <div className="text-center py-5 fw-semibold fs-5 w-100">No products available.</div>
                         )}
                     </div>
                 </div>
             </div>
         </section>
     );
-}
+};
 
 export default PopularProduct;
