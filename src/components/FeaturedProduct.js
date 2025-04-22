@@ -6,10 +6,10 @@ import { Navigation } from 'swiper/modules';
 import ProductCard from "./reuse/ProductCard";
 import axios from "axios";
 import useFavourites from "./reuse/useFavourites";  // Import your favourites hook!
-import useCart from "./reuse/AddToCart";
+// import useCart from "./reuse/AddToCart";
 
 const FeaturedProduct = () => {
-    const { addToCart } = useCart();
+    // const { addToCart } = useCart();
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [favourites, setFavourites] = useFavourites();
 
@@ -72,7 +72,7 @@ const FeaturedProduct = () => {
                                             product={product} 
                                             favourites={favourites} 
                                             setFavourites={setFavourites} 
-                                            addToCart={addToCart}  // Pass addToCart function to ProductCard
+                                            // addToCart={addToCart}  // Pass addToCart function to ProductCard
                                         />
                                     </SwiperSlide>
                                 ))}

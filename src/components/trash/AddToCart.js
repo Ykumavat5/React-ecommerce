@@ -27,4 +27,5 @@ const useCart = () => {
     return { addToCart };
 };
 
+//  home 1.ad banner 2.main banner 3. newsletter 
 export default useCart;

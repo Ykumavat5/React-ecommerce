@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
-import useFavourites from "./reuse/useFavourites";
 import './reuse/ButtonStyles.css';
+import useFavourites from "./reuse/useFavourites";
 import { CartContext } from './reuse/CartContext';
 
 const Product = () => {

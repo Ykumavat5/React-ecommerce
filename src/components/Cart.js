@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-    const { cart, updateCartQuantity, deleteCartItem } = useContext(CartContext);
+    const { cart, updateCartQuantity, deleteCartItem ,clearCart } = useContext(CartContext);
     const [showModal, setShowModal] = useState(false);
     const [timeSlots, setTimeSlots] = useState([]);
     const [formData, setFormData] = useState({
@@ -98,6 +98,8 @@ const Cart = () => {
             );
 
             if (response.status === 200 || response.status === 201) {
+                clearCart();
+
                 alert("Checkout successful!");
                 console.log("Order placed successfully:", response.data);
             } else {

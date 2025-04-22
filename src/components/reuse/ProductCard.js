@@ -56,8 +56,15 @@ const ProductCard = ({ product, favourites, setFavourites }) => {
                 prev.includes(productId) ? [...prev, productId] : prev.filter(id => id !== productId)
             );
         }
+        
     };
-
+    useEffect(() => {
+        if (cartItem) {
+            setQuantity(cartItem.quantity);
+        } else {
+            setQuantity(1);
+        }
+    }, [cartItem]);
     return (
         <div className="product-item h-100">
             <figure>

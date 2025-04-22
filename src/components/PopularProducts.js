@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import ProductCard from './reuse/ProductCard';
 import axios from "axios";
+import ProductCard from './reuse/ProductCard';
 import useFavourites from './reuse/useFavourites';
-import useCart from "./reuse/AddToCart";
 
 const PopularProduct = () => {
-    const { addToCart } = useCart();
     const [popularProducts, setPopularProducts] = useState([]);
     const [favourites, setFavourites] = useFavourites();
 
@@ -72,7 +70,7 @@ const PopularProduct = () => {
                                             product={product} 
                                             favourites={favourites} 
                                             setFavourites={setFavourites}
-                                            addToCart={addToCart} // This is where you pass the addToCart function
+                                            // addToCart={addToCart} // This is where you pass the addToCart function
                                         />
                                     </SwiperSlide>
                                 ))}

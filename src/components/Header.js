@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import useCategories from './reuse/useCategories';
+import { CartContext } from './reuse/CartContext';
 
 const Header = () => {
     const categorys = useCategories();
     const { user, logout } = useAuth();
+    const { cart } = useContext(CartContext);
+    const cartCount = cart.length; 
 
     return (
         <>
-            <header className='sticky-top' style={{backgroundColor:"whitesmoke"}}>
+            <header className='sticky-top' style={{ backgroundColor: "whitesmoke" }}>
                 <div className="container-fluid">
                     <div className="row py-3 border-bottom">
 
@@ -94,11 +97,23 @@ const Header = () => {
                                         {/* #wishlist */}
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a href="/dashboard" className="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <svg width="24" height="24"><use href="#shopping-bag"></use></svg>
                                     </a>
+                                </li> */}
+                                <li>
+                                    <a href="/dashboard" className="p-2 mx-1 position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                                        <svg width="24" height="24"><use href="#shopping-bag"></use></svg>
+                                        {cartCount > 0 && (
+                                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                {cartCount}
+                                                <span className="visually-hidden">cart items</span>
+                                            </span>
+                                        )}
+                                    </a>
                                 </li>
+
                             </ul>
                         </div>
 

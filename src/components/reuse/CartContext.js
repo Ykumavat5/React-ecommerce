@@ -53,14 +53,17 @@ export const CartProvider = ({ children }) => {
             console.error("Error deleting item:", error);
         }
     };
-
+    const clearCart = () => {
+        setCart([]); // Assuming you're using useState for `cart`
+      };
+      
 
     useEffect(() => {
         fetchCart(); // Fetch cart when app loads
     }, []);
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, updateCartQuantity, fetchCart,deleteCartItem }}>
+        <CartContext.Provider value={{ cart, addToCart, updateCartQuantity, fetchCart,deleteCartItem ,clearCart}}>
             {children}
         </CartContext.Provider>
     );
