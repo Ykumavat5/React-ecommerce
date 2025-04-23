@@ -4,8 +4,9 @@ import Svg from '../components/Svg';
 import Sidebar from '../components/SideBar';
 import Cart from '../components/Cart';
 import ViewProduct from '../components/reuse/viewProduct';
+import Footer from '../components/Footer';
 
-const Favourites = () => {
+const Product = () => {
 
   return (
     <>
@@ -14,8 +15,10 @@ const Favourites = () => {
       <Sidebar />
       <Cart />
       <ViewProduct />
+      <Footer />
+
     </>
   );
 };
 
-export default Favourites;
+export default Product;

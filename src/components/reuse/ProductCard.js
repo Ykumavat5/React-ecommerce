@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../reuse/CartContext';
-import axios from 'axios';
+// import axios from 'axios';
 
-const ProductCard = ({ product, favourites, setFavourites }) => {
-    const { cart, addToCart, updateCartQuantity,deleteCartItem } = useContext(CartContext);
+const ProductCard = ({ product, favourites, toggleFavourite }) => {
+    const { cart, addToCart, updateCartQuantity, deleteCartItem } = useContext(CartContext);
     const cartItem = cart.find(item => item.product_id === product.id);
     const [quantity, setQuantity] = useState(cartItem ? cartItem.quantity : 1);
 
@@ -37,34 +37,14 @@ const ProductCard = ({ product, favourites, setFavourites }) => {
             deleteCartItem(product.id);
         }
     };
-
-    const handleToggleFavourite = async (productId) => {
-        const token = localStorage.getItem("token_organic");
-        setFavourites(prev =>
-            prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
-        );
-        try {
-            const res = await axios.post(
-                "http://localhost:3035/api/v1/user/toggleFavourite",
-                { product_id: productId },
-                { headers: { api_key: "123456789", token } }
-            );
-            if (res.status === 200) console.log(res.data.message);
-        } catch (error) {
-            console.error("Error toggling favourite:", error);
-            setFavourites(prev =>
-                prev.includes(productId) ? [...prev, productId] : prev.filter(id => id !== productId)
-            );
-        }
-        
-    };
     useEffect(() => {
         if (cartItem) {
             setQuantity(cartItem.quantity);
         } else {
             setQuantity(1);
         }
-    }, [cartItem]);
+    }, [cartItem]);    
+
     return (
         <div className="product-item h-100">
             <figure>
@@ -170,7 +150,7 @@ const ProductCard = ({ product, favourites, setFavourites }) => {
 
                         <div className="col-2">
                             <button
-                                onClick={() => handleToggleFavourite(product.id)}
+                                onClick={() => toggleFavourite(product.id)}  // Use the passed toggleFavourite
                                 className={`btn btn-outline-dark rounded-1 p-2 fs-6 ${favourites.includes(product.id) ? 'heart-black' : 'heart-white'}`}
                             >
                                 <svg width="18" height="18">
@@ -185,5 +165,6 @@ const ProductCard = ({ product, favourites, setFavourites }) => {
         </div>
     );
 };
+
 
 export default ProductCard;

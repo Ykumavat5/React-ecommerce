@@ -4,8 +4,8 @@ import './reuse/ButtonStyles.css';
 import useFavourites from "./reuse/useFavourites";
 import { CartContext } from './reuse/CartContext';
 
-const Product = () => {
-    const [favourites, setFavourites] = useFavourites();
+const Product = ({ searchQuery }) => {
+    const [favourites, toggleFavourite] = useFavourites();
     const [products, setProducts] = useState([]);
     const { cart, addToCart, updateCartQuantity, deleteCartItem } = useContext(CartContext);
     const [selectedQuantities, setSelectedQuantities] = useState({});
@@ -56,37 +56,22 @@ const Product = () => {
         }
     };
 
-    const handleToggleFavourite = async (productId) => {
-        const token = localStorage.getItem("token_organic");
-        setFavourites(prev =>
-            prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
-        );
-        try {
-            const res = await axios.post(
-                "http://localhost:3035/api/v1/user/toggleFavourite",
-                { product_id: productId },
-                { headers: { api_key: "123456789", token } }
-            );
-            if (res.status === 200) console.log(res.data.message);
-        } catch (error) {
-            console.error("Error toggling favourite:", error);
-            setFavourites(prev =>
-                prev.includes(productId) ? [...prev, productId] : prev.filter(id => id !== productId)
-            );
-        }
-    };
-
     const fetchProducts = useCallback(async () => {
         try {
+            const token = localStorage.getItem("token_organic");
             const res = await axios.get("http://localhost:3035/api/v1/user/products", {
-                headers: { api_key: "123456789" },
+                params: searchQuery ? { search: searchQuery } : {},
+                headers: {
+                    api_key: "123456789",
+                    token,
+                },
             });
             setProducts(Array.isArray(res.data.data) ? res.data.data : []);
         } catch (error) {
             console.error("Error fetching products:", error);
             setProducts([]);
         }
-    }, []);
+    }, [searchQuery]);
 
     useEffect(() => {
         fetchProducts();
@@ -98,7 +83,7 @@ const Product = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="section-header d-flex flex-wrap justify-content-between my-4">
-                            <h2 className="section-title">Best selling products</h2>
+                            <h2 className="section-title">{searchQuery ? "Products" : "Best selling products"}</h2>
                             <div className="d-flex align-items-center">
                                 <a href="/dashboard" className="btn btn-primary rounded-1">View All</a>
                             </div>
@@ -184,16 +169,13 @@ const Product = () => {
 
                                                     <div className="button-area p-3 pt-0">
                                                         <div className="row g-1 mt-2">
-
                                                             {cartItem ? (
                                                                 <>
                                                                     <div className="col-3">
                                                                         <button
                                                                             onClick={() => handleDecrement(product.id, quantity)}
                                                                             className="btn btn-outline-dark rounded-1 w-100 h-100"
-                                                                        >
-                                                                            -
-                                                                        </button>
+                                                                        >-</button>
                                                                     </div>
                                                                     <div className="col-4 h-100">
                                                                         <input
@@ -208,9 +190,7 @@ const Product = () => {
                                                                         <button
                                                                             onClick={() => handleIncrement(product.id, quantity)}
                                                                             className="btn btn-outline-dark rounded-1 w-100 h-100"
-                                                                        >
-                                                                            +
-                                                                        </button>
+                                                                        >+</button>
                                                                     </div>
                                                                 </>
                                                             ) : (
@@ -237,7 +217,7 @@ const Product = () => {
 
                                                             <div className="col-2">
                                                                 <button
-                                                                    onClick={() => handleToggleFavourite(product.id)}
+                                                                    onClick={() => toggleFavourite(product.id)}
                                                                     className={`btn btn-outline-dark rounded-1 p-2 fs-6 ${favourites.includes(product.id) ? 'heart-black' : 'heart-white'}`}
                                                                 >
                                                                     <svg width="18" height="18">
@@ -245,7 +225,6 @@ const Product = () => {
                                                                     </svg>
                                                                 </button>
                                                             </div>
-
                                                         </div>
                                                     </div>
 

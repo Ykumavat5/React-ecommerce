@@ -7,6 +7,8 @@ import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
 import Favourites from './pages/Favourites';
 import Product from './pages/Product';
+import CategoryProduct from './pages/CategoryProduct';
+
 // import { AuthProvider } from './AuthContext';
 // import { useState } from 'react';
 
@@ -44,7 +46,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path='/favourites' element={<Favourites />} />
         <Route path='/product/:productId' element={<Product />} />
-        
+        <Route path='/category/:categoryId' element={<CategoryProduct />} />
+
         <Route path="*" element={<Error />} />
       </Routes>
       {/* </AuthProvider> */}

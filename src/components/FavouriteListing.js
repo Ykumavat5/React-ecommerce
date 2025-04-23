@@ -2,40 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import useFavourites from "./reuse/useFavourites";
 import './reuse/ButtonStyles.css';
+import { Link } from 'react-router-dom';
 
 const FavouriteListing = () => {
-    const [favourites, setFavourites] = useFavourites();
+    const [favourites, toggleFavourite] = useFavourites(); // <- get setFavourites too
     const [products, setProducts] = useState([]);
 
-    const handleToggleFavourite = async (productId) => {
-        const token = localStorage.getItem("token_organic");
-    
-        // Optimistically remove from UI
-        setFavourites(prev => prev.filter(id => id !== productId));
-        setProducts(prev => prev.filter(product => product.id !== productId)); // remove from product list
-    
-        try {
-            const res = await axios.post(
-                "http://localhost:3035/api/v1/user/toggleFavourite",
-                { product_id: productId },
-                {
-                    headers: {
-                        api_key: "123456789",
-                        token,
-                    },
-                }
-            );
-    
-            if (res.status === 200) {
-                console.log(res.data.message || "Removed from favourites");
-            }
-        } catch (error) {
-            console.error("Error removing favourite:", error);
-    
-        }
-    };
-
-    
     const fetchProducts = useCallback(async () => {
         const token = localStorage.getItem("token_organic");
 
@@ -59,8 +31,12 @@ const FavouriteListing = () => {
         fetchProducts();
     }, [fetchProducts]);
 
+    const handleFavouriteClick = async (productId) => {
+        await toggleFavourite(productId); // Call the hook method
+        setProducts(prev => prev.filter(product => product.id !== productId)); // Optimistic update
+    };
+
     return (
-        // component Products
         <section className="pb-5">
             <div className="container-lg">
                 <div className="row">
@@ -68,6 +44,18 @@ const FavouriteListing = () => {
                         <div className="section-header d-flex flex-wrap justify-content-between my-4 ">
                             <h2 className="section-title">Favourite products</h2>
                         </div>
+                        <nav aria-label="breadcrumb" className="mb-4">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item">
+                                    <Link to="/dashboard">
+                                        <i className="bi bi-house-door-fill"></i> Dashboard
+                                    </Link>
+                                </li>
+                                <li className="breadcrumb-item active" aria-current="page">
+                                    View Product
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
 
@@ -79,10 +67,10 @@ const FavouriteListing = () => {
                                     <div className="col" key={index}>
                                         <div className="product-item h-100 d-flex flex-column border p-2">
                                             <figure>
-                                                <a href="index.html" title="Product Title">
+                                                <a href={`/product/${product.id}`} title={product.title}>
                                                     <img
                                                         src={product.media}
-                                                        alt="Product Thumbnail"
+                                                        alt={product.title}
                                                         className="tab-image w-100"
                                                         style={{ height: "200px", objectFit: "cover" }}
                                                     />
@@ -115,7 +103,7 @@ const FavouriteListing = () => {
                                                     </span>
                                                 </div>
                                                 <div className="d-flex justify-content-center align-items-center gap-2">
-                                                {product?.discounted_price ? (
+                                                    {product?.discounted_price ? (
                                                         <del>$ {product?.price}</del>
                                                     ) : (
                                                         <span className="text-dark fw-semibold">${product?.price}</span>
@@ -137,7 +125,7 @@ const FavouriteListing = () => {
                                                         </div>
                                                         <div className="col-2">
                                                             <button
-                                                                onClick={() => handleToggleFavourite(product.id)}
+                                                                onClick={() => handleFavouriteClick(product.id)}
                                                                 className={`btn btn-outline-dark rounded-1 p-2 fs-6 ${favourites.includes(product.id) ? 'heart-black' : 'heart-white'}`}
                                                             >
                                                                 <svg width="18" height="18">

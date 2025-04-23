@@ -6,12 +6,11 @@ import { Navigation } from 'swiper/modules';
 import ProductCard from "./reuse/ProductCard";
 import axios from "axios";
 import useFavourites from "./reuse/useFavourites";
-// import useCart from "./reuse/AddToCart"; // <-- import useCart hook
+// import useCart from "./reuse/AddToCart";
 
 const LatestProducts = () => {
-    // const { addToCart } = useCart();  // <-- useCart hook to get addToCart function
     const [latestProducts, setLatestProducts] = useState([]);
-    const [favourites, setFavourites] = useFavourites();
+    const [favourites, toggleFavourite] = useFavourites(); // ✅ use toggleFavourite from hook
 
     const fetchLatestProducts = useCallback(async () => {
         try {
@@ -68,11 +67,10 @@ const LatestProducts = () => {
                             >
                                 {latestProducts.map((product, index) => (
                                     <SwiperSlide key={index}>
-                                        <ProductCard 
-                                            product={product} 
-                                            favourites={favourites} 
-                                            setFavourites={setFavourites} 
-                                            // addToCart={addToCart}  // <-- Pass addToCart to ProductCard
+                                        <ProductCard
+                                            product={product}
+                                            favourites={favourites}
+                                            toggleFavourite={toggleFavourite} // ✅ Pass toggleFavourite instead of setFavourites
                                         />
                                     </SwiperSlide>
                                 ))}

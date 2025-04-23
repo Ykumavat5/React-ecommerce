@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // , { useEffect }
 // import { useAuth } from '../AuthContext';
 // import { useNavigate } from 'react-router-dom';
@@ -21,29 +21,24 @@ import BottomCards from '../components/BottomCards';
 import Footer from '../components/Footer';
 
 const Dashboard = () => {
-  // const { user } = useAuth();
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-   
-  //   if (!user) {
-  //     navigate('/login');
-  //   }
-  // }, [user, navigate]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // if (!user) {
   //   return <div className="text-center mt-5">Loading Dashboard...</div>;
   // }
 
+
+
   return (
     <>
       <Svg />
-      <Header />
+      <Header setSearchQuery={setSearchQuery} />
       <Sidebar />
-      <MainBanner />
+      {searchQuery === '' && <MainBanner />}
+      
       <Cart />
-      <Categorys />
-      <Product />
+      {searchQuery === '' && <Categorys />}
+      <Product searchQuery={searchQuery}/>
       <AdvertisementBanner />
       <FeaturedProduct />
       {/* <Signup /> */}

@@ -1,14 +1,17 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
-import useCategories from './reuse/useCategories';
+// import useCategories from './reuse/useCategories';
 import { CartContext } from './reuse/CartContext';
 
-const Header = () => {
-    const categorys = useCategories();
+const Header = ({ setSearchQuery }) => {
+    // const categorys = useCategories();
     const { user, logout } = useAuth();
     const { cart } = useContext(CartContext);
-    const cartCount = cart.length; 
+    const cartCount = cart.length;
+    const handleInputChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
 
     return (
         <>
@@ -30,23 +33,11 @@ const Header = () => {
 
                         <div className="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
                             <div className="search-bar row bg-light p-2 rounded-4">
-                                <div className="col-md-4 d-none d-md-block">
-                                    <select className="form-select border-0 bg-transparent" >
-                                        <option value="">See All Categories</option>
-                                        {categorys.length > 0 ? (
-                                            categorys.map((cat) => (
-                                                <option key={cat.id} value={cat.name}>
-                                                    {cat.name}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option disabled>No categories available</option>
-                                        )}
-                                    </select>
-                                </div>
+
                                 <div className="col-11 col-md-7">
                                     <form id="search-form" className="text-center" action="index.html" method="post">
-                                        <input type="text" className="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products" />
+                                        <input type="text" className="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products"
+                                            onChange={handleInputChange} />
                                     </form>
                                 </div>
                                 <div className="col-1">
@@ -94,14 +85,8 @@ const Header = () => {
                                 <li>
                                     <a href="/favourites" className="p-2 mx-1">
                                         <svg width="24" height="24"><use href="#heart"></use></svg>
-                                        {/* #wishlist */}
                                     </a>
                                 </li>
-                                {/* <li>
-                                    <a href="/dashboard" className="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                        <svg width="24" height="24"><use href="#shopping-bag"></use></svg>
-                                    </a>
-                                </li> */}
                                 <li>
                                     <a href="/dashboard" className="p-2 mx-1 position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                                         <svg width="24" height="24"><use href="#shopping-bag"></use></svg>

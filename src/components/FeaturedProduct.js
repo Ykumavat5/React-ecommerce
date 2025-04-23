@@ -4,14 +4,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import ProductCard from "./reuse/ProductCard";
+import useFavourites from "./reuse/useFavourites";
 import axios from "axios";
-import useFavourites from "./reuse/useFavourites";  // Import your favourites hook!
-// import useCart from "./reuse/AddToCart";
 
 const FeaturedProduct = () => {
-    // const { addToCart } = useCart();
     const [featuredProducts, setFeaturedProducts] = useState([]);
-    const [favourites, setFavourites] = useFavourites();
+    const [favourites, toggleFavourite] = useFavourites();  // Get both favourites and toggleFavourite from the custom hook
 
     const fetchFeaturedProducts = useCallback(async () => {
         try {
@@ -71,8 +69,7 @@ const FeaturedProduct = () => {
                                         <ProductCard 
                                             product={product} 
                                             favourites={favourites} 
-                                            setFavourites={setFavourites} 
-                                            // addToCart={addToCart}  // Pass addToCart function to ProductCard
+                                            toggleFavourite={toggleFavourite}  // Pass toggleFavourite function to ProductCard
                                         />
                                     </SwiperSlide>
                                 ))}

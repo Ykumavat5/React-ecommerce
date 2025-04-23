@@ -9,7 +9,7 @@ import useFavourites from './reuse/useFavourites';
 
 const PopularProduct = () => {
     const [popularProducts, setPopularProducts] = useState([]);
-    const [favourites, setFavourites] = useFavourites();
+    const [favourites, toggleFavourite] = useFavourites(); // ✅ updated to use toggleFavourite
 
     const fetchPopularProducts = useCallback(async () => {
         try {
@@ -69,8 +69,7 @@ const PopularProduct = () => {
                                         <ProductCard 
                                             product={product} 
                                             favourites={favourites} 
-                                            setFavourites={setFavourites}
-                                            // addToCart={addToCart} // This is where you pass the addToCart function
+                                            toggleFavourite={toggleFavourite} // ✅ Pass toggleFavourite instead of setFavourites
                                         />
                                     </SwiperSlide>
                                 ))}

@@ -6,19 +6,16 @@ const useFavourites = () => {
 
   const fetchFavourites = useCallback(async () => {
     const token = localStorage.getItem("token_organic");
-
     try {
       const res = await axios.get("http://localhost:3035/api/v1/user/favourites", {
         headers: {
           api_key: "123456789",
-          token: `${token}`,
+          token,
         },
       });
       const productIds = Array.isArray(res.data.data?.result)
         ? res.data.data.result.map(item => item.product_id)
         : [];
-      // console.log("use fav called");
-
       setFavourites(productIds);
     } catch (error) {
       console.error("Error fetching favourites:", error);
@@ -26,11 +23,36 @@ const useFavourites = () => {
     }
   }, []);
 
+  const toggleFavourite = async (productId) => {
+    const token = localStorage.getItem("token_organic");
+    const isFav = favourites.includes(productId);
+
+    // Update local state optimistically
+    setFavourites(prev =>
+      isFav ? prev.filter(id => id !== productId) : [...prev, productId]
+    );
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3035/api/v1/user/toggleFavourite",
+        { product_id: productId },
+        { headers: { api_key: "123456789", token } }
+      );
+      if (res.status === 200) console.log(res.data.message);
+    } catch (error) {
+      console.error("Error toggling favourite:", error);
+      // Revert UI on error
+      setFavourites(prev =>
+        isFav ? [...prev, productId] : prev.filter(id => id !== productId)
+      );
+    }
+  };
+
   useEffect(() => {
     fetchFavourites();
   }, [fetchFavourites]);
 
-  return [favourites, setFavourites];
+  return [favourites, toggleFavourite];
 };
 
 export default useFavourites;

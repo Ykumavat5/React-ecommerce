@@ -4,6 +4,7 @@ import Svg from '../components/Svg';
 import Sidebar from '../components/SideBar';
 import FavouriteListing from '../components/FavouriteListing';
 import Cart from '../components/Cart';
+import Footer from '../components/Footer';
 
 const Favourites = () => {
 
@@ -14,6 +15,8 @@ const Favourites = () => {
       <Sidebar />
       <Cart />
       <FavouriteListing />
+      <Footer />
+
     </>
   );
 };
