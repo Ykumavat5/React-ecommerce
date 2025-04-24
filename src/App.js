@@ -8,11 +8,14 @@ import Signup from './components/authentication/Signup';
 import Favourites from './pages/Favourites';
 import Product from './pages/Product';
 import CategoryProduct from './pages/CategoryProduct';
+import ProfilePage from './pages/ProfilePage';
+// import { Elements } from '@stripe/react-stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
+// import CheckoutForm from './components/CheckoutForm';
+import { ToastContainer } from 'react-toastify';
 
 // import { AuthProvider } from './AuthContext';
 // import { useState } from 'react';
-
-
 // import { Swiper, SwiperSlide } from 'swiper/react';
 
 function App() {
@@ -22,6 +25,7 @@ function App() {
   // const handleLogin = () => {
   //   setIsLoggedIn(true);
   // };
+  // const stripePromise = loadStripe('your-publishable-key-here');
 
   return (
     <div className="App">
@@ -38,6 +42,7 @@ function App() {
         />
         <Route path="*" element={<Error />} />
       </Routes> */}
+
       {/* <AuthProvider> */}
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
@@ -47,10 +52,24 @@ function App() {
         <Route path='/favourites' element={<Favourites />} />
         <Route path='/product/:productId' element={<Product />} />
         <Route path='/category/:categoryId' element={<CategoryProduct />} />
+        <Route path='/profile' element={<ProfilePage />} />
+
+        {/* <Route path="/pay" element={<Elements stripe={stripePromise}><CheckoutForm /> </Elements>} /> */}
 
         <Route path="*" element={<Error />} />
       </Routes>
       {/* </AuthProvider> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
+
     </div>
   );
 }

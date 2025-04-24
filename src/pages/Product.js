@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Svg from '../components/Svg';
 import Sidebar from '../components/SideBar';
 import Cart from '../components/Cart';
-import ViewProduct from '../components/reuse/viewProduct';
+import ViewProduct from '../components/hooks/viewProduct';
 import Footer from '../components/Footer';
 
 const Product = () => {

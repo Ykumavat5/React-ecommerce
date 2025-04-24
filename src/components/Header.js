@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
-// import useCategories from './reuse/useCategories';
-import { CartContext } from './reuse/CartContext';
+// import useCategories from './hooks/useCategories';
+import { CartContext } from './hooks/CartContext';
 
 const Header = ({ setSearchQuery }) => {
     // const categorys = useCategories();
@@ -21,7 +21,7 @@ const Header = ({ setSearchQuery }) => {
 
                         <div className="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
                             <div className="d-flex align-items-center my-3 my-sm-0">
-                                <Link to="index.html">
+                                <Link to="/dashboard">
                                     <img src="/assets/images/logo.svg" alt="logo" className="img-fluid" />
                                 </Link>
                             </div>
@@ -51,17 +51,6 @@ const Header = ({ setSearchQuery }) => {
                                 <li className="nav-item active">
                                     <Link to="/dashboard" className="nav-link">Home</Link>
                                 </li>
-                                <li className="nav-item dropdown">
-                                    <Link className="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">other</Link>
-                                    <ul className="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
-                                        <li><Link to="#index" className="dropdown-item">About Us </Link></li>
-                                        <li><Link to="#myOrders" className="dropdown-item">My Orders </Link></li>
-                                        <li><Link to="#index" className="dropdown-item">My Account </Link></li>
-                                        {/* <li><Link to="#index" className="dropdown-item">Checkout </Link></li> */}
-                                        {/* <li><Link to="#latest-blog" className="dropdown-item">Blog </Link></li> */}
-                                        {/* <li><Link to="index.html" className="dropdown-item">Single Post </Link></li> */}
-                                    </ul>
-                                </li>
                                 {!user && (
                                     <li className='nav-item'>
                                         <Link to="/login" className='nav-link'>Login</Link>
@@ -77,10 +66,25 @@ const Header = ({ setSearchQuery }) => {
 
                         <div className="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
                             <ul className="d-flex justify-content-end list-unstyled m-0">
-                                <li>
+                                {/* <li>
                                     <a href="/dashboard" className="p-2 mx-1">
                                         <svg width="24" height="24"><use href="#user"></use></svg>
                                     </a>
+                                </li> */}
+                                <li className="nav-item dropdown">
+                                    <Link className="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg width="24" height="24"><use href="#user"></use></svg>
+                                    </Link>
+                                    <ul className="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
+                                        <li><Link to="#index" className="dropdown-item">About Us </Link></li>
+                                        {user && (
+                                            <>
+                                                <li><Link to="#myOrders" className="dropdown-item">My Orders </Link></li>
+                                                <li><Link to="/profile" className="dropdown-item">My Account </Link></li>
+                                            </>
+                                        )}
+
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="/favourites" className="p-2 mx-1">

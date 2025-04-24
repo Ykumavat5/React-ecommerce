@@ -1,8 +1,10 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ⬅️ Import
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate(); // ⬅️ Hook to programmatically navigate
   const [token, setToken] = useState(localStorage.getItem("token_organic"));
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user_organic");
@@ -21,6 +23,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user_organic");
     setToken(null);
     setUser(null);
+    window.location.href = "/dashboard";
+
   };
 
   return (

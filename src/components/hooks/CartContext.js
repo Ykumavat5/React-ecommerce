@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 export const CartContext = createContext();
@@ -25,8 +26,12 @@ export const CartProvider = ({ children }) => {
                 headers: { api_key: "123456789", token }
             });
             fetchCart();
+            toast.success("🛒 Item added to cart!");
+
         } catch (error) {
             console.error("Error adding to cart:", error);
+            toast.error("Failed to add item to cart.");
+
         }
     };
 
@@ -37,8 +42,12 @@ export const CartProvider = ({ children }) => {
                 headers: { api_key: "123456789", token }
             });
             fetchCart();
+            toast.info("🛍️ Cart updated");
+
         } catch (error) {
             console.error("Error updating cart quantity:", error);
+            toast.error("Failed to update cart.");
+
         }
     };
     const deleteCartItem = async (product_id) => {
@@ -46,17 +55,20 @@ export const CartProvider = ({ children }) => {
         try {
             await axios.delete("http://localhost:3035/api/v1/user/cart/delete", {
                 headers: { api_key: "123456789", token },
-                data: { product_id }, // for DELETE, data must be inside `data`
+                data: { product_id },
             });
             fetchCart();
+            toast.warn("🗑️ Item removed from cart");
+
         } catch (error) {
             console.error("Error deleting item:", error);
+            toast.error("Failed to remove item from cart.");
         }
     };
     const clearCart = () => {
-        setCart([]); // Assuming you're using useState for `cart`
-      };
-      
+        setCart([]);
+        toast.info("🧹 Cart cleared");
+    };    
 
     useEffect(() => {
         fetchCart(); // Fetch cart when app loads

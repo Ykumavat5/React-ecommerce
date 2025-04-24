@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useHome from "./reuse/HomePageApi";
+import useHome from "./hooks/HomePageApi";
 
 const AdvertisementBanner = () => {
     const { homePage } = useHome();

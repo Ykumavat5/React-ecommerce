@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Svg from '../components/Svg';
 import Sidebar from '../components/SideBar';
 import Cart from '../components/Cart';
-import ViewCategoryProduct from '../components/reuse/viewCategoryProduct';
+import ViewCategoryProduct from '../components/hooks/viewCategoryProduct';
 import Footer from '../components/Footer';
 import Categorys from '../components/Categorys';
 

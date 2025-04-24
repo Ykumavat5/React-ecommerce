@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import ProductCard from "./reuse/ProductCard";
+import ProductCard from "./hooks/ProductCard";
 import axios from "axios";
-import useFavourites from "./reuse/useFavourites";
-// import useCart from "./reuse/AddToCart";
+import useFavourites from "./hooks/useFavourites";
+// import useCart from "./hooks/AddToCart";
 
 const LatestProducts = () => {
     const [latestProducts, setLatestProducts] = useState([]);
@@ -38,7 +38,7 @@ const LatestProducts = () => {
                             <div className="d-flex align-items-center">
                                 <a href="/dashboard" className="btn btn-primary me-2">View All</a>
                                 <div className="swiper-buttons">
-                                    <button className="swiper-prev products-carousel-prev btn btn-primary">❮</button>
+                                    <button className="swiper-prev products-carousel-prev btn btn-primary mx-2">❮</button>
                                     <button className="swiper-next products-carousel-next btn btn-primary">❯</button>
                                 </div>
                             </div>

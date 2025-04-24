@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import useFavourites from "./reuse/useFavourites";
-import './reuse/ButtonStyles.css';
+import useFavourites from "./hooks/useFavourites";
+import './hooks/ButtonStyles.css';
 import { Link } from 'react-router-dom';
 
 const FavouriteListing = () => {
@@ -38,7 +38,7 @@ const FavouriteListing = () => {
 
     return (
         <section className="pb-5">
-            <div className="container-lg">
+            <div className="container-lg" style={{minHeight:"80vh"}}>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="section-header d-flex flex-wrap justify-content-between my-4 ">
@@ -77,7 +77,17 @@ const FavouriteListing = () => {
                                                 </a>
                                             </figure>
                                             <div className="d-flex flex-column text-center flex-grow-1">
-                                                <h3 className="fs-6 fw-normal">{product?.title}</h3>
+                                                <h3 className="fs-6 fw-normal product-title "
+                                                    style={{
+                                                        display: "-webkit-box",
+                                                        WebkitLineClamp: 2,
+                                                        WebkitBoxOrient: "vertical",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                        lineHeight: "1.2em",
+                                                        height: "2.4em",
+                                                    }}
+                                                >{product.title}</h3>
                                                 <div>
                                                     <span className="rating">
                                                         {Array.from({ length: Math.floor(product.avg_ratings || 0) }).map((_, i) => (

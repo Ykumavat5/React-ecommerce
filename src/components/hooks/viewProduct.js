@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { CartContext } from '../reuse/CartContext'; // Adjust path as needed
-import useFavourites from '../reuse/useFavourites'; // ✅ Import your custom hook
+import { CartContext } from '../hooks/CartContext'; // Adjust path as needed
+import useFavourites from '../hooks/useFavourites'; // ✅ Import your custom hook
 
 const ViewProduct = () => {
     const { productId } = useParams();
@@ -155,9 +155,9 @@ const ViewProduct = () => {
                                     {!expanded ? (
                                         <>
                                             <p className="text-muted">
-                                                {product.description.split(" ").slice(0, 50).join(" ")}...
+                                                {product.description.split(" ").slice(0, 30).join(" ")}...
                                             </p>
-                                            {product.description.split(" ").length > 50 && (
+                                            {product.description.split(" ").length > 30 && (
                                                 <button
                                                     onClick={() => setExpanded(true)}
                                                     className="btn btn-link px-0 text-decoration-none"

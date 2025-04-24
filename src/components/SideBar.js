@@ -1,5 +1,5 @@
 import React from "react";
-import useCategories from './reuse/useCategories';
+import useCategories from './hooks/useCategories';
 
 const Sidebar = () => {
     const categorys = useCategories();
@@ -19,7 +19,7 @@ const Sidebar = () => {
                 <ul className="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
                     {categorys.length > 0 ? (
                         categorys.map((cat) => (
-                            <li className="nav-item border-dashed active">
+                            <li key={cat.id} className="nav-item border-dashed active">
                             <a href={`/category/${cat.id}`} className="nav-link d-flex align-items-center gap-3 text-dark p-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24"><use href={cat.icon}></use></svg>
                                 <span>{cat.name}</span>

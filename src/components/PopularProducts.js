@@ -4,8 +4,8 @@ import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import axios from "axios";
-import ProductCard from './reuse/ProductCard';
-import useFavourites from './reuse/useFavourites';
+import ProductCard from './hooks/ProductCard';
+import useFavourites from './hooks/useFavourites';
 
 const PopularProduct = () => {
     const [popularProducts, setPopularProducts] = useState([]);
@@ -37,7 +37,7 @@ const PopularProduct = () => {
                             <div className="d-flex align-items-center">
                                 <a href="/dashboard" className="btn btn-primary me-2">View All</a>
                                 <div className="swiper-buttons">
-                                    <button className="swiper-prev popular-products-prev btn btn-primary">❮</button>
+                                    <button className="swiper-prev popular-products-prev btn btn-primary mx-2">❮</button>
                                     <button className="swiper-next popular-products-next btn btn-primary">❯</button>
                                 </div>
                             </div>

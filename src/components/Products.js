@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
-import './reuse/ButtonStyles.css';
-import useFavourites from "./reuse/useFavourites";
-import { CartContext } from './reuse/CartContext';
+import './hooks/ButtonStyles.css';
+import useFavourites from "./hooks/useFavourites";
+import { CartContext } from './hooks/CartContext';
 
 const Product = ({ searchQuery }) => {
     const [favourites, toggleFavourite] = useFavourites();

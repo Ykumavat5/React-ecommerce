@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { CartContext } from "./reuse/CartContext";
-import axios from "axios";
+import { CartContext } from "./hooks/CartContext";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
     const { cart, updateCartQuantity, deleteCartItem ,clearCart } = useContext(CartContext);
@@ -100,7 +102,17 @@ const Cart = () => {
             if (response.status === 200 || response.status === 201) {
                 clearCart();
 
-                alert("Checkout successful!");
+                // alert("Checkout successful!");
+                toast.success("🎉 Order placed successfully!", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                  
                 console.log("Order placed successfully:", response.data);
             } else {
                 alert("Checkout failed with status code: " + response.status);
@@ -119,7 +131,7 @@ const Cart = () => {
     return (
         <>
             <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasCart">
-                <div className="offcanvas-header justify-content-center">
+                <div className="offcanvas-header justify-content-end">
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
@@ -271,6 +283,7 @@ const Cart = () => {
                     </div>
                 </div>
             )}
+
         </>
     );
 };

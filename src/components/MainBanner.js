@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../AuthContext';
-import useHome from './reuse/HomePageApi'; // Your custom hook for fetching home page data
+import useHome from './hooks/HomePageApi'; // Your custom hook for fetching home page data
 
 const MainBanner = () => {
     const { user } = useAuth();

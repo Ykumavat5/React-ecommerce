@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 // , { useEffect }
 // import { useAuth } from '../AuthContext';
 // import { useNavigate } from 'react-router-dom';
-// Import components
 import Header from '../components/Header';
 import Svg from '../components/Svg';
 import MainBanner from '../components/MainBanner';
@@ -22,12 +21,6 @@ import Footer from '../components/Footer';
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
-  // if (!user) {
-  //   return <div className="text-center mt-5">Loading Dashboard...</div>;
-  // }
-
-
 
   return (
     <>

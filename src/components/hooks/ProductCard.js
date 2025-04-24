@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CartContext } from '../reuse/CartContext';
+import { CartContext } from '../hooks/CartContext';
 // import axios from 'axios';
 
 const ProductCard = ({ product, favourites, toggleFavourite }) => {

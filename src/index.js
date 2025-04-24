@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from "./AuthContext"; // ✅ Make sure path is correct
-import { CartProvider } from './components/reuse/CartContext';
+import { CartProvider } from './components/hooks/CartContext';
 
 // import { Swiper, SwiperSlide } from 'swiper/react';
 

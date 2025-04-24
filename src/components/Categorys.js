@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import useCategories from "./reuse/useCategories";
+import useCategories from "./hooks/useCategories";
 
 const Categorys = () => {
   const categorys = useCategories();
@@ -33,7 +33,7 @@ const Categorys = () => {
               <div className="d-flex align-items-center">
                 {shouldLoop && (
                   <div className="swiper-buttons">
-                    <button className="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
+                    <button className="swiper-prev category-carousel-prev btn btn-yellow ml-2">❮</button>
                     <button className="swiper-next category-carousel-next btn btn-yellow">❯</button>
                   </div>
                 )}
