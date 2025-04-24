@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { CartContext } from "./hooks/CartContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
-    const { cart, updateCartQuantity, deleteCartItem ,clearCart } = useContext(CartContext);
+    const { cart, updateCartQuantity, deleteCartItem, clearCart } = useContext(CartContext);
     const [showModal, setShowModal] = useState(false);
     const [timeSlots, setTimeSlots] = useState([]);
     const [formData, setFormData] = useState({
@@ -111,14 +111,14 @@ const Cart = () => {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                  });
-                  
+                });
+
                 console.log("Order placed successfully:", response.data);
             } else {
                 alert("Checkout failed with status code: " + response.status);
                 console.log("Error:", response.data);
             }
-            
+
             // Optionally clear cart or redirect
             setShowModal(false);
         } catch (error) {
@@ -154,8 +154,8 @@ const Cart = () => {
                                                     style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                                                     title={item.title}
                                                 >
-                                                    {item.title.split(' ').slice(0, 5).join(' ')}
-                                                    {item.title.split(' ').length > 5 ? '...' : ''}
+                                                    {(item.title || '').split(' ').slice(0, 5).join(' ')}
+                                                    {(item.title || '').split(' ').length > 5 ? '...' : ''}
                                                 </Link>
                                             </div>
                                             <span className="text-body-secondary">${(item.price * item.quantity).toFixed(2)}</span>
