@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user_organic");
     setToken(null);
     setUser(null);
-    window.location.href = "/dashboard";
+    navigate("/dashboard", { replace: true });
+    window.location.reload();
 
   };
 
