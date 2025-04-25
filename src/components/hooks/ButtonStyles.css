@@ -18,3 +18,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
+.product-item {
+  transition: box-shadow 0.2s ease;
+}
+
+.product-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}

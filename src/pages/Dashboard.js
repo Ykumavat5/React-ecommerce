@@ -18,6 +18,7 @@ import LatestBlogs from '../components/LatestBlogs';
 import DownloadAppBanner from '../components/DownloadAppBanner';
 import BottomCards from '../components/BottomCards';
 import Footer from '../components/Footer';
+import FloatingChatButton from '../FloatingChatButton';
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,12 +35,13 @@ const Dashboard = () => {
       <Product searchQuery={searchQuery}/>
       <AdvertisementBanner />
       <FeaturedProduct />
-      {/* <Signup /> */}
       <PopularProduct />
       <LatestProducts />
       <LatestBlogs />
       <DownloadAppBanner />
       <BottomCards />
+      <FloatingChatButton />
+
       <Footer />
     </>
   );

@@ -50,7 +50,7 @@ const ProductCard = ({ product, favourites, toggleFavourite }) => {
             <figure>
                 <a href={`/product/${product.id}`} title={product.title}>
                     <img src={product?.media} alt="Product Thumbnail" className="tab-image"
-                        style={{ height: "200px", objectFit: "cover" }}
+                        style={{ height: "200px", objectFit: "contain" }}
                     />
                 </a>
             </figure>

@@ -13,6 +13,8 @@ import ProfilePage from './pages/ProfilePage';
 // import { loadStripe } from '@stripe/stripe-js';
 // import CheckoutForm from './components/CheckoutForm';
 import { ToastContainer } from 'react-toastify';
+import BlogPage from './pages/BlogList';
+import Chatbot from './Chatbot';
 
 // import { AuthProvider } from './AuthContext';
 // import { useState } from 'react';
@@ -53,7 +55,8 @@ function App() {
         <Route path='/product/:productId' element={<Product />} />
         <Route path='/category/:categoryId' element={<CategoryProduct />} />
         <Route path='/profile' element={<ProfilePage />} />
-
+        <Route path='/blogs' element={<BlogPage />} />
+        <Route path='/chatbot' element={<Chatbot />} />
         {/* <Route path="/pay" element={<Elements stripe={stripePromise}><CheckoutForm /> </Elements>} /> */}
 
         <Route path="*" element={<Error />} />

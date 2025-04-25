@@ -11,7 +11,7 @@ const LatestBlogs = () => {
                     headers: { api_key: "123456789" },
                 });
                 const result = res.data?.data || [];
-                
+
                 setBlogs(result);
             } catch (error) {
                 console.error("Error fetching blogs:", error);

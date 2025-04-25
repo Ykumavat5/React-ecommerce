@@ -3,7 +3,7 @@ import axios from "axios";
 import './hooks/ButtonStyles.css';
 import { Link } from 'react-router-dom';
 
-const BlogListing = () => {
+const UserOrdersListing = () => {
     const [blogs, setBlogs] = useState([]);
     const [expandedBlogs, setExpandedBlogs] = useState({});
 
@@ -145,4 +145,4 @@ const BlogListing = () => {
     );
 };
 
-export default BlogListing;
+export default UserOrdersListing;

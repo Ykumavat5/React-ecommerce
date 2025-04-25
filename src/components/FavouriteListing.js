@@ -20,7 +20,12 @@ const FavouriteListing = () => {
             });
 
             const result = res.data?.data?.result;
-            setProducts(Array.isArray(result) ? result : []);
+            if (res.data.data.code === 200) {
+
+                setProducts(Array.isArray(result) ? result : []);
+            } else {
+                console.error("Error fetching products:");
+            }
         } catch (error) {
             console.error("Error fetching products:", error);
             setProducts([]);
@@ -32,13 +37,13 @@ const FavouriteListing = () => {
     }, [fetchProducts]);
 
     const handleFavouriteClick = async (productId) => {
-        await toggleFavourite(productId); // Call the hook method
-        setProducts(prev => prev.filter(product => product.id !== productId)); // Optimistic update
+        await toggleFavourite(productId);
+        setProducts(prev => prev.filter(product => product.id !== productId)); 
     };
 
     return (
         <section className="pb-5">
-            <div className="container-lg" style={{minHeight:"80vh"}}>
+            <div className="container-lg" style={{ minHeight: "80vh" }}>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="section-header d-flex flex-wrap justify-content-between my-4 ">

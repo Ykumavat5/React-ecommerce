@@ -108,7 +108,7 @@ const Product = ({ searchQuery }) => {
                                                             src={product.media}
                                                             alt="Product Thumbnail"
                                                             className="tab-image w-100"
-                                                            style={{ height: "200px", objectFit: "cover" }}
+                                                            style={{ height: "200px", objectFit: "contain" }}
                                                         />
                                                     </a>
                                                 </figure>

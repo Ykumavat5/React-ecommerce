@@ -70,7 +70,7 @@ const LatestProducts = () => {
                                         <ProductCard
                                             product={product}
                                             favourites={favourites}
-                                            toggleFavourite={toggleFavourite} // ✅ Pass toggleFavourite instead of setFavourites
+                                            toggleFavourite={toggleFavourite}
                                         />
                                     </SwiperSlide>
                                 ))}
