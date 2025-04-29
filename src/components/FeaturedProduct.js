@@ -69,7 +69,7 @@ const FeaturedProduct = () => {
                                         <ProductCard 
                                             product={product} 
                                             favourites={favourites} 
-                                            toggleFavourite={toggleFavourite}  // Pass toggleFavourite function to ProductCard
+                                            toggleFavourite={toggleFavourite} 
                                         />
                                     </SwiperSlide>
                                 ))}

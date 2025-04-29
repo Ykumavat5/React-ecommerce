@@ -19,7 +19,7 @@ const ViewCategoryProduct = ({ categoryId ,searchQuery}) => {
       const token = localStorage.getItem('token_organic');
 
       try {
-        console.log("category passed in prop",categoryId);
+        // console.log("category passed in prop",categoryId);
         
         const res = await axios.get("http://localhost:3035/api/v1/user/products", {
             params: {

@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import './App.css';
 import Dashboard from './pages/Dashboard';
 import Error from './pages/Error';
@@ -9,43 +8,20 @@ import Favourites from './pages/Favourites';
 import Product from './pages/Product';
 import CategoryProduct from './pages/CategoryProduct';
 import ProfilePage from './pages/ProfilePage';
-// import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
-// import CheckoutForm from './components/CheckoutForm';
 import { ToastContainer } from 'react-toastify';
 import BlogPage from './pages/BlogList';
 import Chatbot from './Chatbot';
 
-// import { AuthProvider } from './AuthContext';
-// import { useState } from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
+import PaymentPage from './pages/PaymentPage';
+
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51PT1lF2KXWWRtS4wteQaFVjBqVZDyEYk9TZydkmEwRCwk7ClXJQPGc2yYMgTnxyQK521noLavAM7nOVVSzA7tNXw00lsCFsTYb');
 
 function App() {
-
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // const handleLogin = () => {
-  //   setIsLoggedIn(true);
-  // };
-  // const stripePromise = loadStripe('your-publishable-key-here');
-
   return (
     <div className="App">
-      {/* <Routes>
-        <Route 
-          path="/" 
-          element={
-            isLoggedIn ? <Dashboard /> : <Navigate to="/login" />
-          } 
-        />
-        <Route 
-          path="/login" 
-          element={<Login onLogin={handleLogin} />} 
-        />
-        <Route path="*" element={<Error />} />
-      </Routes> */}
-
-      {/* <AuthProvider> */}
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
@@ -57,11 +33,20 @@ function App() {
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/blogs' element={<BlogPage />} />
         <Route path='/chatbot' element={<Chatbot />} />
-        {/* <Route path="/pay" element={<Elements stripe={stripePromise}><CheckoutForm /> </Elements>} /> */}
+
+        {/* ✅ Wrap PaymentPage in Elements */}
+        <Route
+          path="/payment"
+          element={
+            <Elements stripe={stripePromise}>
+              <PaymentPage />
+            </Elements>
+          }
+        />
 
         <Route path="*" element={<Error />} />
       </Routes>
-      {/* </AuthProvider> */}
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -72,7 +57,6 @@ function App() {
         draggable
         theme="light"
       />
-
     </div>
   );
 }

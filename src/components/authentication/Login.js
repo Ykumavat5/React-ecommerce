@@ -44,11 +44,53 @@ const Login = () => {
   }, [user, navigate]);
 
   return (
+    // <div className="form-container">
+    //   <div className="auth-form ">
+    //     <div className="d-flex align-items-center mx-5 mb-5 my-3 my-sm-0">
+    //       <Link to="index.html">
+    //         <img src="/assets/images/logo.svg" alt="logo" className="img-fluid" style={{margin:"25px 30px"}} />
+    //       </Link>
+    //     </div>
+    //     <h2>Login</h2>
+    //     <Formik
+    //       initialValues={{ email: "", password: "" }}
+    //       validationSchema={Yup.object({
+    //         email: Yup.string().email("Invalid email").required("Email is required"),
+    //         password: Yup.string().required("Password is required"),
+    //       })}
+    //       onSubmit={handleSubmit}
+    //     >
+    //       {({ isSubmitting, errors }) => (
+    //         <Form>
+    //           {errors.general && <div className="error-message">{errors.general}</div>}
+
+    //           <div className="form-group">
+    //             <Field name="email" type="email" placeholder="Email" />
+    //             <ErrorMessage name="email" component="div" className="error" />
+    //           </div>
+
+    //           <div className="form-group">
+    //             <Field name="password" type="password" placeholder="Password" />
+    //             <ErrorMessage name="password" component="div" className="error" />
+    //           </div>
+
+    //           <button type="submit" disabled={isSubmitting}>
+    //             {isSubmitting ? "Logging in..." : "Login"}
+    //           </button>
+
+    //           <p>
+    //             New user? <Link to="/signup">Register</Link>
+    //           </p>
+    //         </Form>
+    //       )}
+    //     </Formik>
+    //   </div>
+    // </div>
     <div className="form-container">
-      <div className="auth-form ">
-        <div className="d-flex align-items-center mx-5 mb-5 my-3 my-sm-0">
-          <Link to="index.html">
-            <img src="/assets/images/logo.svg" alt="logo" className="img-fluid" style={{margin:"25px 30px"}} />
+      <div className="auth-form">
+        <div className="logo">
+          <Link to="/">
+            <img src="/assets/images/logo.svg" alt="Logo" />
           </Link>
         </div>
         <h2>Login</h2>
@@ -86,6 +128,7 @@ const Login = () => {
         </Formik>
       </div>
     </div>
+
   );
 };
 

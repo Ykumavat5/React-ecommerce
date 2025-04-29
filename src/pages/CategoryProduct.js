@@ -13,7 +13,7 @@ const CategoryProduct = () => {
   
   // Get categoryId from URL params
   const { categoryId } = useParams();
-  console.log("categoryid :", categoryId);
+  // console.log("categoryid :", categoryId);
 
   return (
     <>

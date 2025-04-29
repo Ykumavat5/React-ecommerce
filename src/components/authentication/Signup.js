@@ -2,13 +2,12 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useAuth } from "../../AuthContext";
+// import { useAuth } from "../../AuthContext";
 import "./Signup.css";
 
 const Signup = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
-    console.log(login);
+    // const { login } = useAuth();
 
     const handleSignup = async (values, { setSubmitting, setErrors }) => {
         try {
@@ -19,10 +18,10 @@ const Signup = () => {
                 os_version: "11.2",
                 app_version: "5.2",
                 ip: "192.356.556",
-                login_type: 'simple'
+                login_type: "simple",
             };
 
-            const response = await fetch("http://localhost:3036/api/v1/auth/adminsignup", {
+            const response = await fetch("http://localhost:3035/api/v1/auth/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -36,25 +35,21 @@ const Signup = () => {
             if (response.status === 200 && data.code === 201) {
                 navigate("/login");
             } else {
-                setErrors({ general: "Signup failed, Please try again." });
-                console.log(data.message);
+                setErrors({ general: data.message || "Signup failed, Please try again." });
             }
-
-
         } catch (error) {
             console.log(error);
-
             setErrors({ general: "Something went wrong. Please try again." });
         } finally {
             setSubmitting(false);
         }
     };
 
-
     return (
-        <div className="form-container">
-            <div className="auth-form">
-                <h2>Sign Up</h2>
+        <div className="signup-page">
+            <div className="signup-card">
+                <h2 className="signup-title">Create Your Account</h2>
+
                 <Formik
                     initialValues={{
                         name: "",
@@ -63,6 +58,7 @@ const Signup = () => {
                         mobile_number: "",
                         password: "",
                         confirmPassword: "",
+                        role: "",
                     }}
                     validationSchema={Yup.object({
                         name: Yup.string().required("Name is required"),
@@ -79,52 +75,69 @@ const Signup = () => {
                         confirmPassword: Yup.string()
                             .oneOf([Yup.ref("password")], "Passwords must match")
                             .required("Confirm Password is required"),
-                        role: Yup.string().required("Please select a type"),
+                        role: Yup.string().required("Role is required"),
                     })}
                     onSubmit={handleSignup}
                 >
                     {({ isSubmitting, errors }) => (
-                        <Form>
-                            {errors.general && <div className="error-message">{errors.general}</div>}
+                        <Form className="signup-form">
+                            {errors.general && <div className="error-banner">{errors.general}</div>}
 
                             <div className="form-group">
-                                <Field name="name" type="text" placeholder="Name" />
+                                <label htmlFor="name">Name</label>
+                                <Field name="name" type="text" placeholder="Enter your full name" />
                                 <ErrorMessage name="name" component="div" className="error" />
                             </div>
 
                             <div className="form-group">
-                                <Field name="email" type="email" placeholder="Email" />
+                                <label htmlFor="email">Email</label>
+                                <Field name="email" type="email" placeholder="Enter your email address" />
                                 <ErrorMessage name="email" component="div" className="error" />
                             </div>
 
-                            <div className="form-group">
-                                <Field name="country_code" type="text" placeholder="Country Code (e.g. +91)" />
-                                <ErrorMessage name="country_code" component="div" className="error" />
+                            <div className="form-group-inline">
+                                <div className="form-group">
+                                    <label htmlFor="country_code">Country Code</label>
+                                    <Field name="country_code" type="text" placeholder="+91" />
+                                    <ErrorMessage name="country_code" component="div" className="error" />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="mobile_number">Mobile Number</label>
+                                    <Field name="mobile_number" type="text" placeholder="Enter mobile number" />
+                                    <ErrorMessage name="mobile_number" component="div" className="error" />
+                                </div>
                             </div>
 
                             <div className="form-group">
-                                <Field name="mobile_number" type="text" placeholder="Mobile Number" />
-                                <ErrorMessage name="mobile_number" component="div" className="error" />
-                            </div>
-
-                            <div className="form-group">
-                                <Field name="password" type="password" placeholder="Password" />
+                                <label htmlFor="password">Password</label>
+                                <Field name="password" type="password" placeholder="Create password" />
                                 <ErrorMessage name="password" component="div" className="error" />
                             </div>
 
                             <div className="form-group">
-                                <Field name="confirmPassword" type="password" placeholder="Confirm Password" />
+                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <Field name="confirmPassword" type="password" placeholder="Confirm password" />
                                 <ErrorMessage name="confirmPassword" component="div" className="error" />
                             </div>
 
+                            <div className="form-group">
+                                <label htmlFor="role">Role</label>
+                                <Field name="role" as="select">
+                                    <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="user">User</option>
+                                </Field>
+                                <ErrorMessage name="role" component="div" className="error" />
+                            </div>
 
-                            <button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? "Signing up..." : "Sign Up"}
+                            <button type="submit" className="signup-btn" disabled={isSubmitting}>
+                                {isSubmitting ? "Signing Up..." : "Sign Up"}
                             </button>
 
-                            <p>
+                            <div className="signup-footer">
                                 Already have an account? <Link to="/login">Login</Link>
-                            </p>
+                            </div>
                         </Form>
                     )}
                 </Formik>
