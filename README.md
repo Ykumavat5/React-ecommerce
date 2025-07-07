@@ -43,6 +43,7 @@ Screenshots :-
 
 ![Banner](public/assets/images/Screenshot%20from%202025-07-03%2015-16-20.png)
 
+![Blog Screenshot](public/assets/images/Screenshot%20from%202025-07-03%2015-16-34.png)
 
 ## Learn More
 
